@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="cap.bean.BlogInfo" table="blog_info" catalog="blog">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="increment" />
+        </id>
+        <many-to-one name="user" class="cap.bean.User" fetch="select">
+            <column name="user_id" not-null="true" />
+        </many-to-one>
+        <property name="blogName" type="java.lang.String">
+            <column name="blog_name" length="128" not-null="true" />
+        </property>
+        <property name="description" type="java.lang.String">
+            <column name="description" length="65535" />
+        </property>
+        <property name="annoucement" type="java.lang.String">
+            <column name="annoucement" length="16777215" />
+        </property>
+    </class>
+</hibernate-mapping>

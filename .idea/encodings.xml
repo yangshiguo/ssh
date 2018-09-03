@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/src/cap/action/ArticleAction.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cap/action/CategoryAction.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cap/action/CommentAction.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cap/action/IndexAction.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cap/action/UserAction.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cap/service/UserService.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/cap/util/PageControl.java" charset="GBK" />
+  </component>
+</project>

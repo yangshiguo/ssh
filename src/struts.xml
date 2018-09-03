@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <!-- 首页 -->
+	<package name="index" namespace="/" extends="struts-default">
+
+		<action name="index" class="indexAction" method="index">
+			<result name="success">/Index.jsp</result>
+		</action>
+		<action name="login" class="userAction" method="login">
+
+	    <result name="success" type="redirectAction">index</result>
+	    <result name="error">/Login.jsp</result>
+	    <result name="input">/Login.jsp</result>
+	    </action>
+	    
+	    <action name="logout" class="userAction" method="logout">
+	    <result name="success" type="redirectAction">index</result>
+	    </action>
+	</package>
+    <!-- 用户 -->
+	<package name="user" namespace="/user" extends="struts-default">
+	    <action name="register" class="userAction" method="register">
+	    <result name="success">/Register.jsp</result>
+	    </action>
+	    <action name="index" class="userAction" method="index">
+	    <result name="success">/Index.jsp</result>
+	    </action>
+	    
+	    <action name="apply" class="userAction" method="apply">
+	    <result name="success">/ApplyBlog.jsp</result>
+	    </action>
+	    
+	    <action name="myblog" class="userAction" method="myblog">
+	    <result name="success">/MyBlogIndex.jsp</result>
+	    <result name="error">/frame/404.jsp</result>
+	    </action>
+	    
+	    <action name="profile" class="userAction" method="profile">
+	    <result name="success">/Profile.jsp</result>
+	    </action>
+	    
+	    <action name="updateprofile" class="userAction" method="updateprofile">
+	    <result name="success">/Profile.jsp</result>
+	    </action>
+	    
+	    <action name="updatepass" class="userAction" method="updatepass">
+	    <result name="success">/Profile.jsp</result>
+	    </action>
+	    
+	    <action name="search" class="userAction" method="search">
+	    <result name="success">/SearchResult.jsp</result>
+	    </action>  
+	    
+	     <action name="bloginfo" class="userAction" method="bloginfo">
+	    <result name="success">/BlogInfo.jsp</result>
+	    </action> 
+	    <action name="updatebloginfo" class="userAction" method="updatebloginfo">
+	    <result name="success">/BlogInfo.jsp</result>
+	    </action>
+	    
+	  
+	    
+	    
+	    
+	</package>
+	<!-- 文章 -->
+	<package name="article" namespace="/article" extends="struts-default">
+		<action name="manage" class="articleAction" method="manage">
+		<result name="success">/ArticleManage.jsp</result>
+		</action>
+		
+		<action name="update" class="articleAction" method="update">
+		<result name="success">/UpdateArtical.jsp</result>
+		</action>
+		
+		<action name="add" class="articleAction" method="add">
+		<result name="success">/AddArtical.jsp</result>
+		</action>
+		
+		<action name="save" class="articleAction" method="save">
+		<result name="success" type="redirectAction">manage</result>
+		</action>
+			
+		<action name="saveupdate" class="articleAction" method="saveupdate">
+		<result name="success" type="redirectAction">manage</result>
+		</action>
+		
+		<action name="delete" class="articleAction" method="delete">
+		<result name="success" type="redirectAction">manage</result>
+		</action>	
+	</package>
+	<!-- 文章评论 -->
+	<package name="comment" namespace="/comment" extends="struts-default">
+		<action name="manage" class="commentAction" method="manage">
+		<result name="success">/CommentManage.jsp</result>
+		</action>
+		<action name="post" class="commentAction" method="post">
+		<result name="success">/Post.jsp</result>
+		</action>
+		
+		<action name="commit" class="commentAction" method="commit">
+		<result name="success">/Post.jsp</result>
+		<result name="error">/Login.jsp</result>
+		</action>
+		
+	</package>
+	
+	<!-- 个人分类 -->
+	<package name="category" namespace="/category" extends="struts-default">
+		<action name="manage" class="categoryAction" method="manage">
+		<result name="success">/CategoryManage.jsp</result>
+		</action>	
+		<action name="edit" class="categoryAction" method="edit">
+		<result name="success">/EditCategory.jsp</result>
+		</action>
+		<action name="update" class="categoryAction" method="update">
+		<result name="success">/EditCategory.jsp</result>
+		</action>
+	</package>
+	
+	
+	<package name="admin" namespace="/admin" extends="struts-default">
+		<action name="index" class="adminAction" method="index">
+		<result name="success">/admin/Index.jsp</result>
+		</action>
+		<action name="login" class="adminAction" method="login">
+		<result name="success" type="redirectAction">index</result>
+		<result name="error">/AdminLogin.jsp</result>
+		</action>
+		
+		<action name="logout" class="adminAction" method="logout">
+		<result name="success">/AdminLogin.jsp</result>
+		</action>
+		<action name="useradmin" class="adminAction" method="useradmin">
+		<result name="success">/admin/UserAdmin.jsp</result>
+		</action>
+		<action name="userprofile" class="adminAction" method="userprofile">
+		<result name="success">/admin/UserProfile.jsp</result>
+		</action>
+		
+		<action name="sysArticalAdmin" class="adminAction" method="sysArticalAdmin">
+		<result name="success">/admin/SysArticleAdmin.jsp</result>
+		<result name="input">/admin/SysArticleAdmin.jsp</result>
+		</action>
+		
+		<action name="sysCategoryAdmin" class="adminAction" method="sysCategoryAdmin">
+		<result name="success">/admin/SysCategoryAdmin.jsp</result>
+		</action>
+		
+		
+		<action name="deleteuser" class="adminAction" method="deleteuser">		
+		<result name="success" type="redirect">/admin/useradmin</result>
+		</action>
+		
+		<action name="activeuser" class="adminAction" method="activeuser">		
+		<result name="success" type="redirect">/admin/useradmin</result>
+		</action>
+		
+		<action name="editSysCategory" class="adminAction" method="editSysCategory">
+		<result name="success">/admin/EditSysCategory.jsp</result>
+		</action>
+		
+		<action name="addSysCategory" class="adminAction" method="addSysCategory">
+		<result name="success" type="redirect">sysCategoryAdmin</result>
+		</action>
+		
+		<action name="deleteSysCategory" class="adminAction" method="deleteSysCategory">
+		<result name="success" type="redirect">sysCategoryAdmin</result>
+		</action>
+		
+		<action name="updateSysCategory" class="adminAction" method="updateSysCategory">
+		<result name="success" type="redirect">sysCategoryAdmin</result>
+		</action>
+		
+		
+	</package>
+	
+
+    
+
+</struts>

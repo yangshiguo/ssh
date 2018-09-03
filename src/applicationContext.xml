@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/tx
+     http://www.springframework.org/schema/tx/spring-tx.xsd
+     http://www.springframework.org/schema/aop
+     http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver">
+		</property>
+		<property name="url" value="jdbc:mysql://localhost:3306/blog"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="mysql"></property>
+		<property name="maxActive" value="100"></property>
+		<property name="maxIdle" value="10"></property>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+
+			<value>cap/bean/SysCategory.hbm.xml</value>
+			<value>cap/bean/BlogInfo.hbm.xml</value>
+			<value>cap/bean/Profile.hbm.xml</value>
+			<value>cap/bean/User.hbm.xml</value>
+			<value>cap/bean/Comment.hbm.xml</value>
+			<value>cap/bean/Counter.hbm.xml</value>
+			<value>cap/bean/Category.hbm.xml</value>
+			<value>cap/bean/Admin.hbm.xml</value>
+			<value>cap/bean/Article.hbm.xml</value></list>
+		</property>
+	</bean>
+	
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="find*" read-only="true" propagation="REQUIRED" />
+			<tx:method name="*"  propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut id="transactionPointcut" expression="execution(* cap.dao.impl.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="transactionPointcut" />
+	</aop:config>
+	
+	<bean id="sysCategoryDAO" class="cap.dao.impl.SysCategoryDAOImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="blogInfoDAO" class="cap.dao.impl.BlogInfoDAOImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="profileDAO" class="cap.dao.impl.ProfileDAOImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="userDAO" class="cap.dao.impl.UserDAOImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="commentDAO" class="cap.dao.impl.CommentDAOImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="counterDAO" class="cap.dao.impl.CounterDAOImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="categoryDAO" class="cap.dao.impl.CategoryDAOImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="adminDAO" class="cap.dao.impl.AdminDAOImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="articleDAO" class="cap.dao.impl.ArticleDAOImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+	<bean id="userService" class="cap.service.impl.UserServiceImpl">
+	<property name="userDAO" ref="userDAO"></property>
+	</bean>
+	
+	<bean id="adminService" class="cap.service.impl.AdminServiceImpl">
+	<property name="adminDAO" ref="adminDAO"></property>
+	</bean>
+	
+	<bean id="articleService" class="cap.service.impl.ArticleServiceImpl">
+	<property name="articleDAO" ref="articleDAO"></property>
+	<property name="userDAO" ref="userDAO"></property>
+	</bean>
+	
+	<bean id="blogInfoService" class="cap.service.impl.BlogInfoServiceImpl">
+	<property name="blogInfoDAO" ref="blogInfoDAO"></property>
+	</bean>
+	
+	<bean id="categoryService" class="cap.service.impl.CategoryServiceImpl">
+	<property name="categoryDAO" ref="categoryDAO"></property>
+	</bean>
+	
+	<bean id="commentService" class="cap.service.impl.CommentServiceImpl">
+	<property name="commentDAO" ref="commentDAO"></property>
+	</bean>
+	
+	<bean id="counterService" class="cap.service.impl.CounterServiceImpl">
+	<property name="counterDAO" ref="counterDAO"></property>	
+	</bean>
+	
+	<bean id="profileSrvice" class="cap.service.impl.ProfileServiceImpl">
+	<property name="profileDAO" ref="profileDAO"></property>
+	</bean>
+	
+	<bean id="sysCategoryService" class="cap.service.impl.SysCategoryServiceImpl">
+	<property name="scDAO" ref="sysCategoryDAO"></property>
+	</bean>
+	
+	<bean id="userAction" class="cap.action.UserAction" scope="prototype">
+	<property name="userService" ref="userService"></property>
+	<property name="scService" ref="sysCategoryService"></property>
+	<property name="artService" ref="articleService"></property>
+	<property name="biService" ref="blogInfoService"></property>
+	<property name="categoryService" ref="categoryService"></property>
+	<property name="profileService" ref="profileSrvice"></property>
+	</bean>
+	
+	<bean id="indexAction" class="cap.action.IndexAction" scope="prototype">
+	<property name="artService" ref="articleService"></property>
+	<property name="scService" ref="sysCategoryService"></property>
+	<property name="counterService" ref="counterService"></property>
+	</bean>
+	
+	<bean id="commentAction" class="cap.action.CommentAction" scope="prototype">
+	<property name="cmtService" ref="commentService"></property>
+	<property name="artService" ref="articleService"></property>
+	<property name="cgService" ref="categoryService"></property>
+	<property name="scService" ref="sysCategoryService"></property>
+	<property name="userService" ref="userService"></property>
+	</bean>
+	
+	<bean id="categoryAction" class="cap.action.CategoryAction" scope="prototype">
+	<property name="cgService" ref="categoryService"></property>
+	</bean>
+	
+	<bean id="articleAction" class="cap.action.ArticleAction" scope="prototype">
+	<property name="artService" ref="articleService"></property>
+	<property name="cgService" ref="categoryService"></property>
+	<property name="scService" ref="sysCategoryService"></property>
+	<property name="userService" ref="userService"></property>
+	</bean>
+	
+	<bean id="adminAction" class="cap.action.AdminAction" scope="prototype">
+	<property name="adminService" ref="adminService"></property>
+	<property name="artService" ref="articleService"></property>
+	<property name="cntService" ref="counterService"></property>
+	<property name="scService" ref="sysCategoryService"></property>
+	<property name="userService" ref="userService"></property>
+	
+	</bean>
+	
+	</beans>

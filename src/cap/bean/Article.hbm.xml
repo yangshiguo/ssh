@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="cap.bean.Article" table="article" catalog="blog">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="increment" />
+        </id>
+        <many-to-one name="user" class="cap.bean.User" fetch="select" lazy="false">
+            <column name="user_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="sysCategory" class="cap.bean.SysCategory" fetch="select" lazy="false">
+            <column name="sys_category_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="category" class="cap.bean.Category" fetch="select" lazy="false">
+            <column name="category_id" not-null="true" />
+        </many-to-one>
+        <property name="title" type="java.lang.String">
+            <column name="title" length="64" not-null="true" />
+        </property>
+        <property name="content" type="java.lang.String">
+            <column name="content" length="16777215" not-null="true" />
+        </property>
+        <property name="summary" type="java.lang.String">
+            <column name="summary" length="16777215" not-null="true" />
+        </property>
+        <property name="publishTime" generated="insert" type="java.sql.Timestamp">
+            <column name="publish_time" length="19" not-null="true" default="current_timestamp"/>
+        </property>
+        <property name="isTop" type="java.lang.Boolean">
+            <column name="is_top" not-null="true" />
+        </property>
+        <property name="isDelete" type="java.lang.Boolean">
+            <column name="is_delete" not-null="true" />
+        </property>
+        <property name="count" type="java.lang.Integer">
+            <column name="count" not-null="true" />
+        </property>
+        <set name="comments" inverse="true">
+            <key>
+                <column name="artical_id" not-null="true" />
+            </key>
+            <one-to-many class="cap.bean.Comment" />
+        </set>
+    </class>
+</hibernate-mapping>

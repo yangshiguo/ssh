@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="cap.bean.User" table="user" catalog="blog">
+        <id name="id" type="java.lang.Integer">
+            <column name="id" />
+            <generator class="increment" />
+        </id>
+        <property name="username" type="java.lang.String">
+            <column name="username" length="32" not-null="true" />
+        </property>
+        <property name="password" type="java.lang.String">
+            <column name="password" length="64" not-null="true" />
+        </property>
+        <property name="email" type="java.lang.String">
+            <column name="email" length="32" not-null="true" />
+        </property>
+        <property name="isApplied" type="java.lang.Boolean">
+            <column name="is_applied" not-null="true" />
+        </property>
+        <property name="isDelete" type="java.lang.Boolean">
+            <column name="is_delete" not-null="true" />
+        </property>
+        <property name="isProfile" type="java.lang.Boolean">
+            <column name="is_profile" not-null="true" />
+        </property>
+        <set name="comments" inverse="true">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="cap.bean.Comment" />
+        </set>
+        <set name="profiles" inverse="true" lazy="false">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="cap.bean.Profile" />
+        </set>
+        <set name="categories" inverse="true">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="cap.bean.Category" />
+        </set>
+        <set name="blogInfos" inverse="true">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="cap.bean.BlogInfo" />
+        </set>
+        <set name="articles" inverse="true">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="cap.bean.Article" />
+        </set>
+    </class>
+</hibernate-mapping>
